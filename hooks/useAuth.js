@@ -49,7 +49,6 @@ export const AuthProvider = ({ children }) => {
       .then(async (loginResult) => {
         if (loginResult.type === "success") {
           //   login
-          //   console.log(loginResult);
           const { accessToken, idToken } = loginResult;
           const credentials = GoogleAuthProvider.credential(
             idToken,
@@ -59,7 +58,9 @@ export const AuthProvider = ({ children }) => {
         }
         return Promise.reject();
       })
-      .catch((err) => setError(err))
+      .catch((err) => {
+        setError(err);
+      })
       .finally(() => setLoading(false));
   };
   return (

@@ -7,6 +7,7 @@ import {
   FlatList,
   Platform,
   Text,
+  Button,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { mealData, foodData } from "../data/foodData";
@@ -195,6 +196,7 @@ const Home = ({ navigation }) => {
       {renderHeader()}
       {renderMainCategories()}
       {renderFoodList()}
+      <Button title="Log Out" onPress={LogOut} />
     </SafeAreaView>
   );
 };
