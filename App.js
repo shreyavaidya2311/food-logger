@@ -1,24 +1,37 @@
-import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View } from "react-native";
-import StackNavigator from "./StackNavigator";
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthProvider } from "./hooks/useAuth";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+import useAuth, { AuthProvider } from "./hooks/useAuth";
+import Tabs from "./navigation/tabs";
+import LoginScreen from "./screens/LoginScreen";
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
+  let [fontsLoaded] = useFonts({
+    "Poppins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+  const { user } = useAuth();
+  console.log(user);
   return (
     <NavigationContainer>
       <AuthProvider>
-        <StackNavigator />
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Home" component={Tabs} />
+        </Stack.Navigator>
       </AuthProvider>
     </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default App;
